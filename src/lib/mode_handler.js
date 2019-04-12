@@ -1,5 +1,5 @@
 
-const ModeHandler = function(mode, DrawContext) {
+const ModeHandler = function(mode, modename, DrawContext) {
 
   const handlers = {
     drag: [],
@@ -38,7 +38,7 @@ const ModeHandler = function(mode, DrawContext) {
       const handle = handles[iHandle];
       if (handle.selector(event)) {
         handle.fn.call(ctx, event);
-        DrawContext.store.render();
+        if (handle.fn.render !== false) DrawContext.store.render();
         DrawContext.ui.updateMapClasses();
 
         // ensure an event is only handled once
@@ -79,7 +79,9 @@ const ModeHandler = function(mode, DrawContext) {
       delegate('click', event);
     },
     mousemove: function(event) {
-      delegate('mousemove', event);
+      if (modename !== 'simple_select' && modename !== 'direct_select' && modename !== 'limit_vertex') {
+        delegate('mousemove', event);
+      }
     },
     mousedown: function(event) {
       delegate('mousedown', event);
