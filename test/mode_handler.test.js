@@ -40,7 +40,7 @@ test('ModeHandler calling mode.start with context, and delegation functionality'
   });
   const drawContext = createMockModeHandlerContext();
 
-  const mh = modeHandler(mode, drawContext);
+  const mh = modeHandler(mode, 'mode.start', drawContext);
   t.equal(handleStartSpy.callCount, 1, 'start was called on mode handler creation');
   t.equal(typeof startContext.on, 'function', 'start context has on()');
   t.equal(typeof startContext.render, 'function', 'start context has render()');
@@ -138,7 +138,7 @@ test('ModeHandler calling mode.start with context, and delegation functionality'
 
 test('ModeHandler#stop calling mode.stop', (t) => {
   const mode = createMockMode();
-  const mh = modeHandler(mode, createMockModeHandlerContext());
+  const mh = modeHandler(mode, 'mode.stop', createMockModeHandlerContext());
 
   mh.stop();
   t.equal(mode.stop.callCount, 1, 'mode.stop called');
@@ -149,7 +149,7 @@ test('ModeHandler#stop calling mode.stop', (t) => {
 test('ModeHandler#stop not calling nonexistent mode.stop', (t) => {
   const mode = createMockMode();
   delete mode.stop;
-  const mh = modeHandler(mode, createMockModeHandlerContext());
+  const mh = modeHandler(mode, 'mode.stop', createMockModeHandlerContext());
 
   t.doesNotThrow(() => {
     mh.stop();
@@ -161,7 +161,7 @@ test('ModeHandler#stop not calling nonexistent mode.stop', (t) => {
 test('Modehandler#trash', (t) => {
   const mode = createMockMode();
   const drawContext = createMockModeHandlerContext();
-  const mh = modeHandler(mode, drawContext);
+  const mh = modeHandler(mode, 'mode.trash', drawContext);
 
   mh.trash();
   t.equal(mode.trash.callCount, 1, 'mode.trash called');
@@ -174,7 +174,7 @@ test('Modehandler#trash without a mode.trash', (t) => {
   const mode = createMockMode();
   delete mode.trash;
   const drawContext = createMockModeHandlerContext();
-  const mh = modeHandler(mode, drawContext);
+  const mh = modeHandler(mode, 'mode.trash', drawContext);
 
   t.doesNotThrow(() => {
     mh.trash();
